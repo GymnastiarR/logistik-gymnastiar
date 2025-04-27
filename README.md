@@ -1,6 +1,7 @@
 ![image](https://github.com/user-attachments/assets/16539dd1-ac67-44b4-952d-2f240aa5ade2)
-![image](https://github.com/user-attachments/assets/51234893-f0c7-4c82-9809-5d59eeef0e90)
-![image](https://github.com/user-attachments/assets/da17ec19-d2e1-4783-b994-e431de8d2ab3)
+![image](https://github.com/user-attachments/assets/1496f7f1-7a0b-403b-99cc-80c020523f84)
+![image](https://github.com/user-attachments/assets/0d3a8631-9635-4351-9e14-6317b078da6a)
+
 
 
 ## HOW TO RUN
