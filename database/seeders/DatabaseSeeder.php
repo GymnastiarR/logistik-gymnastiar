@@ -125,6 +125,7 @@ class DatabaseSeeder extends Seeder
             $goods[] = \App\Models\Goods::create([
                 'name' => $value['name'],
                 'stock' => $value['stock'],
+                'unit' => 'pcs',
             ]);
         }
 

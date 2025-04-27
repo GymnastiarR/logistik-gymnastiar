@@ -334,8 +334,16 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button x-on:click="() => errors = {}" type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">Close</button>
+                            <button
+                                x-on:click="() => errors = {
+                                        number: [],
+                                        goods_code: [],
+                                        quantity: [],
+                                        location: [],
+                                        date: [],
+                                        description: [],
+                                }"
+                                type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button x-on:click="() => {$refs.status.value = 0;}" type="button"
                                 class="btn btn-outline-primary" data-bs-toggle="modal"
                                 data-bs-target="#update-confirmation-modal">
@@ -440,8 +448,17 @@
                         <input x-ref="status" name="status" id="status" type="hidden" readonly>
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Catat Barang Keluar</h1>
-                            <button x-on:click="() => errors = {}" type="button" class="btn-close"
-                                data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button
+                                x-on:click="() => errors = {
+                                    number: [],
+                                    goods_code: [],
+                                    quantity: [],
+                                    location: [],
+                                    date: [],
+                                    description: [],
+                                }"
+                                type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3 input-group">
@@ -547,8 +564,16 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button on:click="() => errors = {}" type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">Close</button>
+                            <button
+                                x-on:click="() => errors = {
+                                    number: [],
+                                    goods_code: [],
+                                    quantity: [],
+                                    location: [],
+                                    date: [],
+                                    description: [],
+                                }"
+                                type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button x-on:click="() => $refs.status.value = 0" type="button"
                                 class="btn btn-outline-primary" data-bs-toggle="modal"
                                 data-bs-target="#confirmation-modal">
