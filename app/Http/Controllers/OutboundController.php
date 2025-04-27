@@ -56,8 +56,8 @@ class OutboundController extends Controller
 
         $goods = Goods::where('code', $validatedData['goods_code'])->first();
 
-        if ($validatedData['quantity'] == TransactionStatus::SAVED->value && $goods->stock < $validatedData['quantity']) {
-            return redirect()->back()->with('error', 'Insufficient stock quantity.');
+        if ($validatedData['status'] == TransactionStatus::SAVED->value && $goods->stock < $validatedData['quantity']) {
+            return redirect()->back()->with('error', 'Stock barang tidak mencukupi.');
         }
 
         if ($validatedData['status'] == TransactionStatus::SAVED->value) {
@@ -84,8 +84,8 @@ class OutboundController extends Controller
         $goods = Goods::where('code', $validatedData['goods_code'])->first();
         $validatedData['category'] = TransactionCategory::OUTBOUND->value;
 
-        if ($validatedData['quantity'] == TransactionStatus::SAVED && $goods->stock < $validatedData['quantity']) {
-            return redirect()->back()->with('error', 'Insufficient stock quantity.');
+        if ($validatedData['status'] == TransactionStatus::SAVED && $goods->stock < $validatedData['quantity']) {
+            return redirect()->back()->with('error', 'Stock barang tidak mencukupi.');
         }
 
         if ($validatedData['status'] == TransactionStatus::SAVED) {

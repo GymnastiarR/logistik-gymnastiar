@@ -57,15 +57,22 @@
                 </nav>
             </header>
             <div id="content" class="p-4">
-                @session('success')
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session('success') }}
+                @session('error')
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('error') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                @endsession
+                </div>
+            @endsession
+            @session('success')
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endsession
 
-                {{ $slot }}
-            </div>
+            {{ $slot }}
+        </div>
         </div>
     </main>
     {{-- <footer>
