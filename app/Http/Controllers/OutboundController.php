@@ -102,4 +102,18 @@ class OutboundController extends Controller
 
         return redirect()->route('outbound.index')->with('success', 'Berhasil menyimpan outbound sebagai draft');
     }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Transaction $transaction)
+    {
+        if ($transaction->status == TransactionStatus::SAVED->value) {
+            return redirect()->back()->with('error', 'Transaction cannot be deleted because it is already saved.');
+        }
+
+        $transaction->delete();
+
+        return redirect()->back()->with('success', 'Transaction deleted successfully.');
+    }
 }

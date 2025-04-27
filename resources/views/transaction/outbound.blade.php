@@ -11,7 +11,13 @@
             </script>
         @endpush
     @endsession
-    <div x-data="{ selectedTransaction: {}, url: '{{ route('outbound.index') }}' }">
+    <div x-init="() => {
+        $watch('selectedTransaction', value => {
+            if (value.goods_code) {
+                selectedGoods = {{ json_encode($goods) }}.find((item) => item.code == value.goods_code)
+            }
+        });
+    }" x-data="{ selectedTransaction: {}, url: '{{ route('outbound.index') }}', selectedGoods: {} }">
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <button type="button" class="btn btn-primary d-flex align-items-center" data-bs-toggle="modal"
@@ -82,7 +88,7 @@
                         <td>
                             @if ($transaction->status == 0)
                                 <button style="background-color: transparent; border: none;" data-bs-toggle="modal"
-                                    data-bs-target="#updateItemModal" type="button"
+                                    data-bs-target="#delete-confirmation-modal" type="button"
                                     x-on:click="() => {selectedTransaction = {{ json_encode($transaction) }};}">
                                     <x-icons.delete />
                                 </button>
@@ -100,6 +106,38 @@
         <div class="mx-auto">
             {{ $transactions->withQueryString()->links('pagination::bootstrap-5') }}
         </div>
+        <div class="modal fade" id="delete-confirmation-modal" tabindex="-1"
+            aria-labelledby="delete-confirmation-modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <form method="POST" x-bind:action="url + '/' + selectedTransaction.id" class="modal-content">
+                    @csrf
+                    @method('DELETE')
+                    <div class="modal-header">
+                        Apakah anda yakin ingin menghapus data ini?
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            No Barang Masuk : <template x-if="selectedTransaction.number"><span
+                                    x-text="selectedTransaction.number"></span></template>
+                        </p>
+                        <p>Barang : <span x-text="selectedGoods.name + ' (' + selectedGoods.code + ') '"></span></p>
+                        <p>Kuantitas : <span x-text="selectedTransaction.quantity"></span></p>
+                        <p>Asal Barang : <span x-text="selectedTransaction.location"></span></p>
+                        <p>Tanggal Masuk : <span x-text="selectedTransaction.date"></span></p>
+                        <p>Deskripsi : <span x-text="selectedTransaction.description"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-bs-toggle="modal" data-bs-dismiss="#delete-confirmation-modal"
+                            class="btn btn-secondary">
+                            Batalkan
+                        </button>
+                        <button class="btn btn-primary">
+                            Ya, Hapus Inbound
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
         {{-- Update --}}
         <div x-init="() => {
             transaction.id = `{{ session()->has('transaction_id') ? session()->get('transaction_id') : '' }}`
@@ -109,6 +147,11 @@
                     selectedGoods = {{ json_encode($goods) }}.find((item) => item.code == value.goods_code)
                 }
             });
+            $watch('number', () => {
+                if (number == false) {
+                    transaction.number = null;
+                }
+            })
             @if(session()->has('modal') && session('modal') == '#updateItemModal')
             errors.number = {{ json_encode($errors->get('number')) }};
             errors.goods_code = {{ json_encode($errors->get('goods_code')) }};
@@ -127,14 +170,14 @@
                 date: [],
                 description: [],
             },
-            number: false,
+            number: true,
             transaction: @if(session()->has('modal') && session('modal') == '#updateItemModal')
             {{ json_encode(old()) }}
             @else {}
             @endif
         
         }">
-            <div class="modal fade" id="update-confirmation-modal" tabindex="-1"
+            <div data-bs-backdrop="static" class="modal fade" id="update-confirmation-modal" tabindex="-1"
                 aria-labelledby="updateConfirmationModal" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -151,7 +194,8 @@
                                     <span>(Nomor Otomatis)</span>
                                 </template>
                             </p>
-                            <p>Barang : <span x-text="selectedGoods.name + ' (' + selectedGoods.code + ') '"></span></p>
+                            <p>Barang : <span x-text="selectedGoods.name + ' (' + selectedGoods.code + ') '"></span>
+                            </p>
                             <p>Kuantitas : <span x-text="transaction.quantity"></span></p>
                             <p>Tujuan Barang : <span x-text="transaction.location"></span></p>
                             <p>Tanggal Keluar : <span x-text="transaction.date"></span></p>
@@ -177,8 +221,8 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="updateItemModal" tabindex="-1" aria-labelledby="updateItemModal"
-                aria-hidden="true">
+            <div data-bs-backdrop="static" class="modal fade" id="updateItemModal" tabindex="-1"
+                aria-labelledby="updateItemModal" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <form x-ref="update_form" method="POST" x-bind:action="url + '/' + selectedTransaction.id"
                         class="modal-content">
@@ -290,7 +334,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button x-on:click="() => errors = {}" type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
                             <button x-on:click="() => {$refs.status.value = 0;}" type="button"
                                 class="btn btn-outline-primary" data-bs-toggle="modal"
                                 data-bs-target="#update-confirmation-modal">
@@ -312,6 +357,11 @@
                     selectedGoods = {{ json_encode($goods) }}.find((item) => item.code == value.goods_code)
                 }
             });
+            $watch('number', () => {
+                if (number == false) {
+                    transaction.number = null;
+                }
+            })
             @if(session()->has('modal') && session('modal') == '#newTransactionModal')
             errors.number = {{ json_encode($errors->get('number')) }};
             errors.goods_code = {{ json_encode($errors->get('goods_code')) }};
@@ -330,15 +380,15 @@
                 date: [],
                 description: [],
             },
-            number: false,
+            number: true,
             transaction: @if(session()->has('modal') && session('modal') == '#newTransactionModal')
             {{ json_encode(old()) }}
             @else {}
             @endif
         
         }">
-            <div class="modal fade" id="confirmation-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div data-bs-backdrop="static" class="modal fade" id="confirmation-modal" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -381,8 +431,8 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="newTransactionModal" tabindex="-1" aria-labelledby="newTransactionModal"
-                aria-hidden="true">
+            <div data-bs-backdrop="static" class="modal fade" id="newTransactionModal" tabindex="-1"
+                aria-labelledby="newTransactionModal" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <form x-ref="create_form" method="POST" action="{{ route('outbound.store') }}"
                         class="modal-content">
@@ -390,8 +440,8 @@
                         <input x-ref="status" name="status" id="status" type="hidden" readonly>
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Catat Barang Keluar</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            <button x-on:click="() => errors = {}" type="button" class="btn-close"
+                                data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3 input-group">
@@ -497,7 +547,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button on:click="() => errors = {}" type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
                             <button x-on:click="() => $refs.status.value = 0" type="button"
                                 class="btn btn-outline-primary" data-bs-toggle="modal"
                                 data-bs-target="#confirmation-modal">

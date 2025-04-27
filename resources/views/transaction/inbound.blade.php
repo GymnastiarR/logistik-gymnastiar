@@ -147,6 +147,11 @@
                     selectedGoods = {{ json_encode($goods) }}.find((item) => item.code == value.goods_code)
                 }
             });
+            $watch('number', () => {
+                if (number == false) {
+                    transaction.number = null;
+                }
+            })
             @if(session()->has('modal') && session('modal') == '#updateItemModal')
             errors.number = {{ json_encode($errors->get('number')) }};
             errors.goods_code = {{ json_encode($errors->get('goods_code')) }};
@@ -165,14 +170,14 @@
                 date: [],
                 description: [],
             },
-            number: false,
+            number: true,
             transaction: @if(session()->has('modal') && session('modal') == '#updateItemModal')
             {{ json_encode(old()) }}
             @else {}
             @endif
         
         }">
-            <div class="modal fade" id="update-confirmation-modal" tabindex="-1"
+            <div data-bs-backdrop="static" class="modal fade" id="update-confirmation-modal" tabindex="-1"
                 aria-labelledby="updateConfirmationModal" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -216,8 +221,8 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="updateItemModal" tabindex="-1" aria-labelledby="updateItemModal"
-                aria-hidden="true">
+            <div data-bs-backdrop="static" class="modal fade" id="updateItemModal" tabindex="-1"
+                aria-labelledby="updateItemModal" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <form x-ref="update_form" method="POST" x-bind:action="url + '/' + selectedTransaction.id"
                         class="modal-content">
@@ -226,8 +231,8 @@
                         <input x-ref="status" name="status" id="status" type="hidden" readonly>
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Catat Barang Masuk</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            <button x-on:click="() => errors = {}" type="button" class="btn-close"
+                                data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3 input-group">
@@ -329,8 +334,12 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button x-on:click="() => {$refs.status.value = 0;}" type="button"
+                            <button
+                                x-on:click="() => {
+                                errors = {}
+                                }"
+                                type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button x-on:click="() => {$refs.status.value = 0; }" type="button"
                                 class="btn btn-outline-primary" data-bs-toggle="modal"
                                 data-bs-target="#update-confirmation-modal">
                                 Draft
@@ -351,6 +360,11 @@
                     selectedGoods = {{ json_encode($goods) }}.find((item) => item.code == value.goods_code)
                 }
             });
+            $watch('number', () => {
+                if (number == false) {
+                    transaction.number = null;
+                }
+            })
             @if(session()->has('modal') && session('modal') == '#newTransactionModal')
             errors.number = {{ json_encode($errors->get('number')) }};
             errors.goods_code = {{ json_encode($errors->get('goods_code')) }};
@@ -369,15 +383,15 @@
                 date: [],
                 description: [],
             },
-            number: false,
+            number: true,
             transaction: @if(session()->has('modal') && session('modal') == '#newTransactionModal')
             {{ json_encode(old()) }}
             @else {}
             @endif
         
         }">
-            <div class="modal fade" id="confirmation-modal" tabindex="-1" aria-labelledby="confirmationModal"
-                aria-hidden="true">
+            <div data-bs-backdrop="static" class="modal fade" id="confirmation-modal" tabindex="-1"
+                aria-labelledby="confirmationModal" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -420,8 +434,8 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="newTransactionModal" tabindex="-1" aria-labelledby="newTransactionModal"
-                aria-hidden="true">
+            <div data-bs-backdrop="static" class="modal fade" id="newTransactionModal" tabindex="-1"
+                aria-labelledby="newTransactionModal" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <form x-ref="create_form" method="POST" action="{{ route('inbound.store') }}"
                         class="modal-content">
@@ -429,8 +443,8 @@
                         <input x-ref="status" name="status" id="status" type="hidden" readonly>
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Catat Barang Masuk</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            <button x-on:click="() => errors = {}" type="button" class="btn-close"
+                                data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3 input-group">
@@ -537,7 +551,11 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button
+                                x-on:click="() => {
+                                errors = {}
+                                }"
+                                type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button x-on:click="() => $refs.status.value = 0" type="button"
                                 class="btn btn-outline-primary" data-bs-toggle="modal"
                                 data-bs-target="#confirmation-modal">

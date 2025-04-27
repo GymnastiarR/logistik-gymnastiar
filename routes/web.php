@@ -31,10 +31,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/inbound', [InboundController::class, 'index'])->name('inbound.index');
     Route::post('/inbound', [InboundController::class, 'store'])->name('inbound.store');
     Route::put('/inbound/{transaction}', [InboundController::class, 'update'])->name('inbound.update');
+    Route::delete('/inbound/{transaction}', [InboundController::class, 'destroy'])->name('inbound.destroy');
 
     Route::get('/outbound', [OutboundController::class, 'index'])->name('outbound.index');
     Route::post('/outbound', [OutboundController::class, 'store'])->name('outbound.store');
     Route::put('/outbound/{transaction}', [OutboundController::class, 'update'])->name('outbound.update');
+    Route::delete('/outbound/{transaction}', [OutboundController::class, 'destroy'])->name('outbound.destroy');
 });
 
 Route::middleware('auth')->group(function () {

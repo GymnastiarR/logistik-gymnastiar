@@ -34,6 +34,30 @@ class TransactionRequest extends FormRequest
         ];
     }
 
+    public function attributes(): array
+    {
+        return [
+            'number' => 'Nomor Transaksi',
+            'goods_code' => 'Kode Barang',
+            'quantity' => 'Jumlah',
+            'status' => 'Status',
+            'location' => 'Lokasi',
+            'date' => 'Asal Barang',
+            'description' => 'Deskripsi',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'number.unique' => 'Nomor Barang Masuk sudah ada.',
+            'goods_code.required_if' => 'Kode barang harus diisi',
+            'quantity.required_if' => 'Jumlah harus diisi',
+            'location.required_if' => 'Lokasi harus diisi',
+            'date.required_if' => 'Asal barang harus diisi',
+        ];
+    }
+
     /**
      * Handle a failed validation attempt.
      *
