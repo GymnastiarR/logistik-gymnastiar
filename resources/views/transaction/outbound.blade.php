@@ -44,7 +44,7 @@
                         @endforeach
                     </select>
                     <input style="width: 140px;" value="{{ request('location') }}" name="location"
-                        class="form-control md-2" type="search" placeholder="Asal Barang" aria-label="Search">
+                        class="form-control md-2" type="search" placeholder="Tujuan Barang" aria-label="Search">
                     <input style="width: 140px;" value="{{ request('number') }}" name="number"
                         class="form-control md-2" type="search" placeholder="No Brng Keluar" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
@@ -59,7 +59,7 @@
                     <th scope="col">No Brng Keluar</th>
                     <th scope="col">Tgl Keluar</th>
                     <th scope="col">Barang</th>
-                    <th scope="col">Asal Barang</th>
+                    <th scope="col">Tujuan Barang</th>
                     <th scope="col">Kuantitas</th>
                     <th scope="col">Status</th>
                     <th scope="col">Action</th>
@@ -122,7 +122,7 @@
                         </p>
                         <p>Barang : <span x-text="selectedGoods.name + ' (' + selectedGoods.code + ') '"></span></p>
                         <p>Kuantitas : <span x-text="selectedTransaction.quantity"></span></p>
-                        <p>Asal Barang : <span x-text="selectedTransaction.location"></span></p>
+                        <p>Tujuan Barang : <span x-text="selectedTransaction.location"></span></p>
                         <p>Tanggal Masuk : <span x-text="selectedTransaction.date"></span></p>
                         <p>Deskripsi : <span x-text="selectedTransaction.description"></span></p>
                     </div>
@@ -301,7 +301,7 @@
                                 <input x-bind:class="errors.location.length > 0 && 'is-invalid'"
                                     x-model="transaction.location" name="location" type="text"
                                     class="form-control" id="floatingInput" placeholder="Jakarta Selatan">
-                                <label for="floatingInput">Lokasi Asal</label>
+                                <label for="floatingInput">Lokasi Tujuan</label>
                                 <template x-if="errors.location.length > 0">
                                     <div id="validationErrorLocation" class="invalid-feedback">
                                         <ul>
@@ -415,7 +415,7 @@
                             <p>Barang : <span x-text="selectedGoods.name + ' (' + selectedGoods.code + ') '"></span>
                             </p>
                             <p>Kuantitas : <span x-text="transaction.quantity"></span></p>
-                            <p>Asal Barang : <span x-text="transaction.location"></span></p>
+                            <p>Tujuan Barang : <span x-text="transaction.location"></span></p>
                             <p>Tanggal Keluar : <span x-text="transaction.date"></span></p>
                             <p>Deskripsi : <span x-text="transaction.description"></span></p>
                             <div class="alert alert-warning" role="alert">
@@ -531,7 +531,7 @@
                                 <input x-bind:class="errors.location.length > 0 && 'is-invalid'"
                                     x-model="transaction.location" name="location" type="text"
                                     class="form-control" id="floatingInput" placeholder="Jakarta Selatan">
-                                <label for="floatingInput">Lokasi Asal</label>
+                                <label for="floatingInput">Lokasi Tujuan</label>
                                 <template x-if="errors.location.length > 0">
                                     <div id="validationErrorLocation" class="invalid-feedback">
                                         <ul>
