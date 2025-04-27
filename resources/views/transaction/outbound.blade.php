@@ -153,7 +153,7 @@
                             </p>
                             <p>Barang : <span x-text="selectedGoods.name + ' (' + selectedGoods.code + ') '"></span></p>
                             <p>Kuantitas : <span x-text="transaction.quantity"></span></p>
-                            <p>Asal Barang : <span x-text="transaction.location"></span></p>
+                            <p>Tujuan Barang : <span x-text="transaction.location"></span></p>
                             <p>Tanggal Keluar : <span x-text="transaction.date"></span></p>
                             <p>Deskripsi : <span x-text="transaction.description"></span></p>
                             <div class="alert alert-warning" role="alert">

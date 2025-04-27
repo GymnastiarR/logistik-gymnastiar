@@ -2,8 +2,6 @@
 ![image](https://github.com/user-attachments/assets/1496f7f1-7a0b-403b-99cc-80c020523f84)
 ![image](https://github.com/user-attachments/assets/0d3a8631-9635-4351-9e14-6317b078da6a)
 
-
-
 ## HOW TO RUN
 
 -   type composer install
@@ -11,11 +9,14 @@
 -   make new .env file
 -   copy all content of .env.example file to .env file
 -   type php artisan key:generate
+-   type php artisan migrate
 -   type php artisan migrate:fresh --seed
 -   type php artisan serve
 -   type npm run dev
 
 ## Initial Account
 
-There is one account. (email - password)
+If you have migrated or imported data from the included sql file, there will be 2 accounts : (email, password)
+
+-   gymnas@gmail.com - gymnas123
 -   admin@gmail.com - admin123

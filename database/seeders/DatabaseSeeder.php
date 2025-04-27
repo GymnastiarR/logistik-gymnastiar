@@ -23,6 +23,14 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
+        \App\Models\User::create([
+            'name' => 'Gymnastiar Ramadhan',
+            'email' => 'gymnas@gmail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('gymnas123'),
+            'remember_token' => Str::random(10),
+        ]);
+
         $goodsList = [
             [
                 'name' => 'Lenovo ThinkPad X1 Carbon',
